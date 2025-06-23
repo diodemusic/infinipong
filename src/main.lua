@@ -197,8 +197,6 @@ function _init()
     score_multiplier = 1
     game_over = false
     last_color_change_bounce = 0
-
-    stars = {}
 end
 
 function _update()
