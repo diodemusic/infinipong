@@ -5,6 +5,8 @@
 - [x] add infinite lives, aim bot, pixel inspector
     and lock controls for debugging
 
+- [ ] organize code into distinct sections
+
 - [ ] paddle hit angle based on contact point
 
 - [ ] every level up you get to choose a power up

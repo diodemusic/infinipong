@@ -1,6 +1,8 @@
 -- infinipong
 -- by saves
 
+------------------- player
+
 function draw_player()
     if player.moving_left then
         spr(2, player.x, player.y)
@@ -41,6 +43,36 @@ function update_player()
     end
 end
 
+function lose_life()
+    sfx(1)
+
+    if player.lives > 1 then
+        if not debug_options.infinite_lives then
+            player.lives -= 1
+        end
+
+        player.x = 60
+
+        enemy.x = 60
+
+        ball.x = 63
+        ball.y = 63
+        ball.x_speed = 0
+        ball.y_speed /= 2
+    else
+        player.lives -= 1
+        set_game_over()
+    end
+end
+
+function draw_lives()
+    for i = 1, player.lives do
+        spr(11, 96 + (i * 8), 1)
+    end
+end
+
+------------------- enemy
+
 function draw_enemy()
     if enemy.moving_left then
         spr(5, enemy.x, enemy.y)
@@ -70,6 +102,8 @@ function update_enemy()
     end
 end
 
+------------------- ball
+
 function draw_ball()
     rectfill(ball.x, ball.y, ball.x + 1, ball.y + 1, 7)
 end
@@ -94,7 +128,7 @@ function update_ball()
     ) then
         ball.y_speed += 0.2
         ball.y_speed = -ball.y_speed
-        ball.x_speed = rnd(2) - 1
+        -- TODO calculate angle on contact point ball.x_speed = rnd(2) - 1
         ball.bounces += 1
         score += 1 * score_multiplier
         sfx(2)
@@ -108,6 +142,8 @@ function update_ball()
         lose_life()
     end
 end
+
+------------------- level
 
 function update_level()
     if (
@@ -126,37 +162,11 @@ function update_level()
     player.color = level % #player.colors + 1
 end
 
-function lose_life()
-    sfx(1)
-
-    if player.lives > 1 then
-        if not debug_options.infinite_lives then
-            player.lives -= 1
-        end
-
-        player.x = 60
-
-        enemy.x = 60
-
-        ball.x = 63
-        ball.y = 63
-        ball.x_speed = 0
-        ball.y_speed /= 2
-    else
-        player.lives -= 1
-        set_game_over()
-    end
-end
+------------------- game state
 
 function set_game_over()
     game_over = true
     music(-1, 10, 1)
-end
-
-function draw_lives()
-    for i = 1, player.lives do
-        spr(11, 96 + (i * 8), 1)
-    end
 end
 
 function draw_stats()
@@ -166,7 +176,7 @@ function draw_stats()
     draw_lives()
 end
 
-------------------------------- debug functions
+------------------------------- debug
 
 function draw_pixel_inspector()
     if debug_options.pixel_inspect then
