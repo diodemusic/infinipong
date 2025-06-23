@@ -1,8 +1,6 @@
 -- infinipong
 -- by saves
 
-local DEBUG = true
-
 function draw_player()
     if player.moving_left then
         spr(2, player.x, player.y)
@@ -32,12 +30,12 @@ function update_player()
     player.moving_left = false
     player.moving_right = false
 
-    if btn(0) and player.x > 0 then
+    if btn(0) and player.x > 0 and not debug_options.lock_controls then
         player.moving_left = true
         player.x -= 1
     end
 
-    if btn(1) and player.x < 120 then
+    if btn(1) and player.x < 120 and not debug_options.lock_controls then
         player.moving_right = true
         player.x += 1
     end
@@ -67,7 +65,9 @@ function update_enemy()
 
     enemy.x = mid(0, enemy.x, 120)
 
-    -- player.x = ball.x - 3
+    if debug_options.aim_bot then
+        player.x = ball.x - 3
+    end
 end
 
 function draw_ball()
@@ -130,7 +130,10 @@ function lose_life()
     sfx(1)
 
     if player.lives > 1 then
-        player.lives -= 1
+        if not debug_options.infinite_lives then
+            player.lives -= 1
+        end
+
         player.x = 60
 
         enemy.x = 60
@@ -158,13 +161,41 @@ end
 
 function draw_stats()
     rectfill(0, 0, 128, 6, 0)
-    -- pset(0, 0, 7)
     -- print("level: " .. level .. "  score: " .. score .. "  lives: ", 0, 1)
     line(0, 0, 1, 0, 0)
     draw_lives()
 end
 
--------------------------------
+------------------------------- debug functions
+
+function draw_pixel_inspector()
+    if debug_options.pixel_inspect then
+        pset(debug_options.pixel_inspector.x, debug_options.pixel_inspector.y, 7)
+
+        print("[" .. debug_options.pixel_inspector.x .. ", " .. debug_options.pixel_inspector.y .. "]",
+        debug_options.pixel_inspector.x + 3,
+        debug_options.pixel_inspector.y - 2)
+    end
+end
+
+function update_pixel_inspector()
+    if debug_options.pixel_inspect then
+        if btnp(0) then
+            debug_options.pixel_inspector.x -= 1
+        end
+        if btnp(1) then
+            debug_options.pixel_inspector.x += 1
+        end
+        if btnp(2) then
+            debug_options.pixel_inspector.y -= 1
+        end
+        if btnp(3) then
+            debug_options.pixel_inspector.y += 1
+        end
+    end
+end
+
+------------------------------- pico-8 callbacks
 
 function _init()
     palt(0, false)
@@ -200,9 +231,15 @@ function _init()
     game_over = false
     last_color_change_bounce = 0
 
-    debug = {
-        x = 63,
-        y = 63
+    debug_options = {
+        pixel_inspect = false,
+        aim_bot = false,
+        infinite_lives = false,
+        lock_controls = false,
+        pixel_inspector = {
+            x = 63,
+            y = 63
+        }
     }
 end
 
@@ -219,20 +256,7 @@ function _update()
     update_ball()
     update_level()
 
-    if DEBUG then
-        if btnp(0) then
-            debug.x -= 1
-        end
-        if btnp(1) then
-            debug.x += 1
-        end
-        if btnp(2) then
-            debug.y -= 1
-        end
-        if btnp(3) then
-            debug.y += 1
-        end
-    end
+    update_pixel_inspector()
 end
 
 function _draw()
@@ -249,9 +273,5 @@ function _draw()
         print("press x", 49, 68, 7)
     end
 
-    if DEBUG then
-        pset(debug.x, debug.y, 7)
-
-        print(debug.x .. ", " .. debug.y, debug.x + 2, debug.y + 4)
-    end
+    draw_pixel_inspector()
 end
