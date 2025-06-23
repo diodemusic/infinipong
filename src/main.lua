@@ -1,6 +1,8 @@
 -- infinipong
 -- by saves
 
+local DEBUG = true
+
 function draw_player()
     if player.moving_left then
         spr(2, player.x, player.y)
@@ -197,6 +199,11 @@ function _init()
     score_multiplier = 1
     game_over = false
     last_color_change_bounce = 0
+
+    debug = {
+        x = 63,
+        y = 63
+    }
 end
 
 function _update()
@@ -211,6 +218,21 @@ function _update()
     update_enemy()
     update_ball()
     update_level()
+
+    if DEBUG then
+        if btnp(0) then
+            debug.x -= 1
+        end
+        if btnp(1) then
+            debug.x += 1
+        end
+        if btnp(2) then
+            debug.y -= 1
+        end
+        if btnp(3) then
+            debug.y += 1
+        end
+    end
 end
 
 function _draw()
@@ -225,5 +247,11 @@ function _draw()
         rectfill(20, 50, 108, 78, 0)
         print("game over!", 44, 58, 7)
         print("press x", 49, 68, 7)
+    end
+
+    if DEBUG then
+        pset(debug.x, debug.y, 7)
+
+        print(debug.x .. ", " .. debug.y, debug.x + 2, debug.y + 4)
     end
 end

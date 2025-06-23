@@ -1,6 +1,6 @@
 # infinipong todo list
 
-- [ ] add debug mode
+- [x] add debug mode
 - [ ] paddle hit angle based on contact point
 - [ ] every level up you get to choose a power up
 - [ ] particle effects on bounce, bigger on level up, using the current
