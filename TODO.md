@@ -1,8 +1,14 @@
 # infinipong todo list
 
+- [ ] add debug mode
 - [ ] paddle hit angle based on contact point
 - [ ] every level up you get to choose a power up
-- [ ] add title screen and title music
+- [ ] particle effects on bounce, bigger on level up, using the current
+    color of the character
+- [ ] add a level bar
+- [ ] add title screen and title music with animated background
+- [ ] high score table, prompt for 3 letter name on new hight score
+- [ ] only increase speed on level up, cap speed
 - [ ] heart falls from top and u can keep it up to keep the life
 - [ ] game over sound -> stop music -> play game over music
 - [ ] shift level score and lives down 1 pixel
