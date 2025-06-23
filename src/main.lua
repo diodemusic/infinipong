@@ -69,12 +69,6 @@ function lose_life()
     end
 end
 
-function draw_lives()
-    for i = 1, player.lives do
-        spr(11, 96 + (i * 8), 1)
-    end
-end
-
 ------------------- enemy
 
 function draw_enemy()
@@ -187,9 +181,15 @@ end
 
 function draw_stats()
     rectfill(0, 0, 128, 6, 0)
-    -- print("level: " .. level .. "  score: " .. score .. "  lives: ", 0, 1)
-    line(0, 0, 1, 0, 0)
+    print("level: " .. level, 1, 1, 7)
+    print("score: " .. score, 49, 1, 7)
     draw_lives()
+end
+
+function draw_lives()
+    for i = 1, player.lives do
+        spr(11, 96 + (i * 8), 1)
+    end
 end
 
 ------------------------------- debug
