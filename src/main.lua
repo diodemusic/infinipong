@@ -128,7 +128,7 @@ function update_ball()
     ) then
         ball.y_speed += 0.2
         ball.y_speed = -ball.y_speed
-        -- TODO calculate angle on contact point ball.x_speed = rnd(2) - 1
+        calcuate_ball_x_angle()
         ball.bounces += 1
         score += 1 * score_multiplier
         sfx(2)
@@ -141,6 +141,10 @@ function update_ball()
     if ball.y >= 128 then
         lose_life()
     end
+end
+
+function calcuate_ball_x_angle()
+    ball.x_speed = ((ball.x - player.x) - 3.5) * 0.4
 end
 
 ------------------- level
@@ -215,7 +219,7 @@ function _init()
     player = {
         x=60,
         y=120,
-        colors={8, 9, 10, 11, 12, 14, 15},
+        colors={0, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15},
         color=0,
         color_updated=false,
         moving_left=false,
@@ -243,7 +247,7 @@ function _init()
 
     debug_options = {
         pixel_inspect = false,
-        aim_bot = false,
+        aim_bot = true,
         infinite_lives = false,
         lock_controls = false,
         pixel_inspector = {

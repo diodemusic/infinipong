@@ -5,9 +5,16 @@
 - [x] add infinite lives, aim bot, pixel inspector
     and lock controls for debugging
 
-- [ ] organize code into distinct sections
+- [x] organize code into distinct sections
 
-- [ ] paddle hit angle based on contact point
+- [x] paddle hit angle based on contact point
+
+- [x] add more player colors
+
+- [ ] add black to the char sprite then make black tranparent again
+    after drawing, make sure spheal isnt cutting off the big star
+    on the corner of his sprite, also use black for the background of
+    all sprites, not the blue color that we used for the background
 
 - [ ] every level up you get to choose a power up
 
@@ -40,6 +47,3 @@
     level and hearts should be 1 pixel from the edge
 
 - [ ] score should be centered
-
-- [ ] add black to the char sprite then make black tranparent again
-    after drawing
