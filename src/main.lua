@@ -4,6 +4,8 @@
 ------------------- player
 
 function draw_player()
+    palt(0, false)
+
     if player.moving_left then
         spr(2, player.x, player.y)
     elseif player.moving_right then
@@ -26,6 +28,8 @@ function draw_player()
         player.y + 7,
         player.colors[player.color]
     )
+
+    palt(0, true)
 end
 
 function update_player()
@@ -74,6 +78,14 @@ end
 ------------------- enemy
 
 function draw_enemy()
+    line(
+        enemy.x + 2,
+        enemy.y + 5,
+        enemy.x + 5,
+        enemy.y + 5,
+        0
+    )
+
     if enemy.moving_left then
         spr(5, enemy.x, enemy.y)
     elseif enemy.moving_right then
@@ -184,7 +196,11 @@ end
 
 function draw_pixel_inspector()
     if debug_options.pixel_inspect then
-        pset(debug_options.pixel_inspector.x, debug_options.pixel_inspector.y, 7)
+        pset(
+            debug_options.pixel_inspector.x,
+            debug_options.pixel_inspector.y,
+            0
+        )
 
         print("[" .. debug_options.pixel_inspector.x .. ", " .. debug_options.pixel_inspector.y .. "]",
         debug_options.pixel_inspector.x + 3,
@@ -212,8 +228,6 @@ end
 ------------------------------- pico-8 callbacks
 
 function _init()
-    palt(0, false)
-
     music(0, 10, 1)
 
     player = {
@@ -246,7 +260,7 @@ function _init()
     last_color_change_bounce = 0
 
     debug_options = {
-        pixel_inspect = false,
+        pixel_inspect = true,
         aim_bot = true,
         infinite_lives = false,
         lock_controls = false,
