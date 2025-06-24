@@ -26,10 +26,14 @@
 
 - [x] extend black border
 
-- [ ] add a level bar
+- [x] add a level bar
 
-- [ ] only increase speed on level up, cap speed, remove ball
+- [x] only increase speed on level up, remove ball
     slowing down on losing a life, reset progress to next level instead
+
+- [ ] spheal pops into view when he hits the ball
+
+- [ ] cap speed
 
 - [ ] ball bounces off the side of the player
 
@@ -43,6 +47,8 @@
 
 - [ ] particle effects on bounce, bigger on level up, using the current
     color of the character
+
+- [ ] add flair to level up
 
 - [ ] high score table, prompt for 3 letter name on new hight score
 
