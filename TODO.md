@@ -33,7 +33,9 @@
 
 - [x] spheal pops into view when he hits the ball
 
-- [ ] cap speed
+- [x] add player move_speed var and increase move speed
+
+- [ ] cap ball speed
 
 - [ ] ball bounces off the side of the player
 

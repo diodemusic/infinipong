@@ -38,12 +38,12 @@ function update_player()
 
     if btn(0) and player.x > 0 and not debug_options.lock_controls then
         player.moving_left = true
-        player.x -= 1
+        player.x -= player.move_speed
     end
 
     if btn(1) and player.x < 120 and not debug_options.lock_controls then
         player.moving_right = true
-        player.x += 1
+        player.x += player.move_speed
     end
 end
 
@@ -248,6 +248,7 @@ function _init()
     player = {
         x=60,
         y=120,
+        move_speed = 2,
         colors={0, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15},
         color=0,
         color_updated=false,
