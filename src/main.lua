@@ -167,8 +167,18 @@ function update_level()
         score_multiplier += 1
         level_progress = 0
 
-        if not (abs(ball.y_speed >= 4)) then
-            ball.y_speed = -abs(ball.y_speed) - ball.y_speed_increase
+        local speed = abs(ball.y_speed)
+
+        print(speed, 70, 50, 11)
+
+        if speed < ball.y_speed_cap then
+            speed = min(speed + ball.y_speed_increase, ball.y_speed_cap)
+        end
+
+        if ball.y_speed < 0 then
+            ball.y_speed = -speed
+        else
+            ball.y_speed = speed
         end
 
         sfx(0)
@@ -318,7 +328,7 @@ function _init()
         x = 60,
         y = 120,
         move_speed = 1.5,
-        colors = {0, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15},
+        colors = {2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0},
         color = 1,
         color_updated = false,
         moving_left = false,
