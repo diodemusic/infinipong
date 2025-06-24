@@ -39,6 +39,10 @@
 
 - [x] cap ball speed
 
+- [ ] Flip sprites instead of using two sprites for left/right facing
+
+- [ ] Use variables for sprite ints n
+
 - [ ] Fix double bounce bug
 
 - [ ] Switch to pal() for player color and enemy color
