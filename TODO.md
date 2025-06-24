@@ -35,6 +35,8 @@
 
 - [x] add player move_speed var and increase move speed
 
+- [x] slow down ball on lose life
+
 - [ ] cap ball speed
 
 - [ ] ball bounces off the side of the player

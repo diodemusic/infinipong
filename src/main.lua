@@ -50,10 +50,11 @@ end
 function lose_life()
     sfx(1)
 
-    if player.lives > 1 then
-        if not debug_options.infinite_lives then
-            player.lives -= 1
-        end
+    if not debug_options.infinite_lives then
+        player.lives -= 1
+    end
+
+    if player.lives > 0 then
 
         player.x = 60
 
@@ -62,9 +63,13 @@ function lose_life()
         ball.x = 63
         ball.y = 63
         ball.x_speed = 0
+
+        if abs(ball.y_speed) ~= 2 do
+            ball.y_speed /= 2
+        end
+
         level_progress = 0
     else
-        player.lives -= 1
         set_game_over()
     end
 end
