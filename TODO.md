@@ -31,7 +31,7 @@
 - [x] only increase speed on level up, remove ball
     slowing down on losing a life, reset progress to next level instead
 
-- [ ] spheal pops into view when he hits the ball
+- [x] spheal pops into view when he hits the ball
 
 - [ ] cap speed
 

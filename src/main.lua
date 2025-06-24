@@ -102,6 +102,7 @@ function update_enemy()
     end
 
     enemy.x = mid(0, enemy.x, 120)
+    enemy.y = (-ball.y + 54) / 4
 
     if debug_options.aim_bot then
         player.x = ball.x - 3
@@ -301,10 +302,10 @@ end
 function _draw()
     cls(1)
     map(0, 0)
+    draw_enemy()
     draw_stats()
     draw_ball()
     draw_player()
-    draw_enemy()
     draw_game_over()
     draw_pixel_inspector()
 end
