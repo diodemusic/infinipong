@@ -45,6 +45,9 @@ function update_player()
         player.moving_right = true
         player.x += player.move_speed
     end
+
+    if player.x < 0 then player.x = 0 end
+    if player.x > 120 then player.x = 120 end
 end
 
 function lose_life()
@@ -128,8 +131,8 @@ function update_ball()
         ball.x >= player.x - 2 and ball.x <= player.x + 8
     ) then
         ball.y = player.y - 3
-        ball.y_speed = -max(1, min(abs(ball.y_speed), ball.y_speed_cap))
-        calcuate_ball_x_angle()
+        ball.y_speed = -ball.y_speed
+        calculate_ball_x_angle()
         level_progress += 16
         score += 1 * score_multiplier
         sfx(2)
@@ -145,7 +148,7 @@ function update_ball()
     end
 end
 
-function calcuate_ball_x_angle()
+function calculate_ball_x_angle()
     ball.x_speed = ((ball.x - player.x) - 3.5) * ball.x_angle_multiplier
 end
 
@@ -159,18 +162,19 @@ end
 ------------------- level
 
 function update_level()
-    if (level_progress == 128) then
+    if (level_progress >= 128) then
         level += 1
         score_multiplier += 1
         level_progress = 0
-        sfx(0)
 
-        if ball.y_speed < ball.y_speed_cap then
-            ball.y_speed = abs(ball.y_speed) + ball.y_speed_increase
+        if not (abs(ball.y_speed >= 4)) then
+            ball.y_speed = -abs(ball.y_speed) - ball.y_speed_increase
         end
+
+        sfx(0)
     end
 
-    player.color = level % #player.colors + 1
+    player.color = ((level-1) % #player.colors) + 1
 end
 
 ------------------- game state
@@ -266,8 +270,7 @@ function draw_debug_stats()
         "p_x: " .. player.x,
         "p_lives: " .. player.lives,
         "p_move_speed: " .. player.move_speed,
-        "p_col: " .. player.color,
-        "lvl_%_p_col: " .. level % #player.colors + 1,
+        "p_col: " .. player.colors[player.color],
         "e_x: " .. enemy.x,
         "e_y: " .. enemy.y,
         "b_x: " .. ball.x,
@@ -342,7 +345,6 @@ function _init()
     score = 0
     score_multiplier = 1
     game_over = false
-    last_color_change_bounce = 0
 
     debug_options = {
         show_debug_stats = true,
