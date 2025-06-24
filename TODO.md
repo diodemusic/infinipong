@@ -39,6 +39,10 @@
 
 - [x] cap ball speed
 
+- [ ] Fix double bounce bug
+
+- [ ] Switch to pal() for player color and enemy color
+
 - [ ] ball bounces off the side of the player
 
 - [ ] add title screen and title music with animated background
