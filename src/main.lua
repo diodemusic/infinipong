@@ -5,31 +5,18 @@
 
 function draw_player()
     palt(0, false)
+    pal(1, player.colors[player.color])
 
     if player.moving_left then
-        spr(2, player.x, player.y)
+        spr(player.sprite_num_right, player.x, player.y, 1, 1, true)
     elseif player.moving_right then
         spr(1, player.x, player.y)
     else
-        spr(0, player.x, player.y)
+        spr(player.sprite_num, player.x, player.y)
     end
 
-    rect(
-        player.x,
-        player.y,
-        player.x + 7,
-        player.y + 6,
-        player.colors[player.color]
-    )
-    line(
-        player.x + 3,
-        player.y + 7,
-        player.x + 4,
-        player.y + 7,
-        player.colors[player.color]
-    )
-
     palt(0, true)
+    pal(1, 1)
 end
 
 function update_player()
@@ -70,21 +57,17 @@ end
 ------------------- enemy
 
 function draw_enemy()
-    line(
-        enemy.x + 2,
-        enemy.y + 5,
-        enemy.x + 5,
-        enemy.y + 5,
-        0
-    )
+    pal(1, 0)
 
     if enemy.moving_left then
-        spr(5, enemy.x, enemy.y)
+        spr(enemy.sprite_num_right, enemy.x, enemy.y, 1, 1, true)
     elseif enemy.moving_right then
-        spr(4, enemy.x, enemy.y)
+        spr(enemy.sprite_num_right, enemy.x, enemy.y)
     else
-        spr(3, enemy.x, enemy.y)
+        spr(enemy.sprite_num, enemy.x, enemy.y)
     end
+
+    pal(1, 1)
 end
 
 function update_enemy()
@@ -204,7 +187,7 @@ end
 
 function draw_lives()
     for i = 1, player.lives do
-        spr(11, 96 + (i * 8), 1)
+        spr(player.lives_sprite_num, 96 + (i * 8), 1)
     end
 end
 
@@ -325,6 +308,8 @@ function _init()
     music(0, 10, 1)
 
     player = {
+        sprite_num = 0,
+        sprite_num_right = 1,
         x = 60,
         y = 120,
         move_speed = 1.5,
@@ -333,9 +318,12 @@ function _init()
         color_updated = false,
         moving_left = false,
         moving_right = false,
-        lives = 3
+        lives = 3,
+        lives_sprite_num = 9
     }
     enemy = {
+        sprite_num = 2,
+        sprite_num_right = 3,
         x = 60,
         y = 8,
         moving_left = false,
