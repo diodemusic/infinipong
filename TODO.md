@@ -37,7 +37,7 @@
 
 - [x] slow down ball on lose life
 
-- [ ] cap ball speed
+- [x] cap ball speed
 
 - [ ] ball bounces off the side of the player
 
