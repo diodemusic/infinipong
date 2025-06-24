@@ -62,7 +62,7 @@ function lose_life()
         ball.x = 63
         ball.y = 63
         ball.x_speed = 0
-        ball.y_speed /= 2
+        level_progress = 0
     else
         player.lives -= 1
         set_game_over()
@@ -132,16 +132,14 @@ function update_ball()
     ) and (
         ball.x >= player.x - 3 and ball.x <= player.x + 9
     ) then
-        ball.y_speed += 0.2
         ball.y_speed = -ball.y_speed
         calcuate_ball_x_angle()
-        ball.bounces += 1
+        level_progress += 16
         score += 1 * score_multiplier
         sfx(2)
     end
     if ball.y <= 17 then
         ball.y_speed = -ball.y_speed
-        score += 1 * score_multiplier
         sfx(2)
     end
     if ball.y >= 128 then
@@ -156,17 +154,12 @@ end
 ------------------- level
 
 function update_level()
-    if (
-        (
-            ball.bounces % 5 == 0
-        ) and (
-            ball.bounces ~= last_color_change_bounce
-        )
-    ) then
+    if (level_progress == 128) then
         level += 1
-        last_color_change_bounce = ball.bounces
         score_multiplier += 1
+        level_progress = 0
         sfx(0)
+        ball.y_speed *= 1.2
     end
 
     player.color = level % #player.colors + 1
@@ -184,6 +177,7 @@ function draw_stats()
     print("level: " .. level, 1, 1, 7)
     print("score: " .. score, 49, 1, 7)
     draw_lives()
+    draw_level_progress()
 end
 
 function draw_lives()
@@ -192,6 +186,26 @@ function draw_lives()
     end
 end
 
+function draw_level_progress()
+    line(0, 7, level_progress, 7, 7)
+    -- print("ball speed: " .. ball.y_speed, 0, 7, 7)
+end
+
+function update_game_over()
+    if game_over then
+        if btnp(5) then
+            _init()
+        end
+    end
+end
+
+function draw_game_over()
+    if game_over then
+        rectfill(20, 50, 108, 78, 0)
+        print("game over!", 44, 58, 7)
+        print("press x", 49, 68, 7)
+    end
+end
 ------------------------------- debug
 
 function draw_pixel_inspector()
@@ -250,18 +264,19 @@ function _init()
         x=63,
         y=63,
         x_speed=0,
-        y_speed=1,
-        bounces=0
+        y_speed=2,
     }
+
     level = 1
+    level_progress = 0
     score = 0
     score_multiplier = 1
     game_over = false
     last_color_change_bounce = 0
 
     debug_options = {
-        pixel_inspect = true,
-        aim_bot = true,
+        pixel_inspect = false,
+        aim_bot = false,
         infinite_lives = false,
         lock_controls = false,
         pixel_inspector = {
@@ -272,18 +287,14 @@ function _init()
 end
 
 function _update()
+    update_game_over()
     if game_over then
-        if btnp(5) then
-            _init()
-        end
         return
     end
-
     update_player()
     update_enemy()
     update_ball()
     update_level()
-
     update_pixel_inspector()
 end
 
@@ -294,12 +305,6 @@ function _draw()
     draw_ball()
     draw_player()
     draw_enemy()
-
-    if game_over then
-        rectfill(20, 50, 108, 78, 0)
-        print("game over!", 44, 58, 7)
-        print("press x", 49, 68, 7)
-    end
-
+    draw_game_over()
     draw_pixel_inspector()
 end
