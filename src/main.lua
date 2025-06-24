@@ -128,7 +128,6 @@ function update_ball()
         ball.x >= player.x - 2 and ball.x <= player.x + 8
     ) then
         ball.y = player.y - 3
-        -- Reverse and clamp y_speed to prevent excessive speed
         ball.y_speed = -max(1, min(abs(ball.y_speed), ball.y_speed_cap))
         calcuate_ball_x_angle()
         level_progress += 16
@@ -265,15 +264,12 @@ function draw_debug_stats()
 
     local stats = {
         "p_x: " .. player.x,
-        "p_y: " .. player.y,
-        "p_mov_r: " .. tostr(player.moving_right),
-        "p_mov_l: " .. tostr(player.moving_left),
         "p_lives: " .. player.lives,
         "p_move_speed: " .. player.move_speed,
+        "p_col: " .. player.color,
+        "lvl_%_p_col: " .. level % #player.colors + 1,
         "e_x: " .. enemy.x,
         "e_y: " .. enemy.y,
-        "e_mov_r: " .. tostr(enemy.moving_right),
-        "e_mov_l: " .. tostr(enemy.moving_left),
         "b_x: " .. ball.x,
         "b_y: " .. ball.y,
         "b_x_s: " .. ball.x_speed,
@@ -281,7 +277,6 @@ function draw_debug_stats()
         "b_y_s_abs: " .. abs(ball.y_speed),
         "aim_bot: " .. tostr(debug_options.aim_bot),
         "aim_bot_t: " .. tostr(debug_options.aim_bot_toggle),
-        "game_over: " .. tostr(game_over)
     }
     local y = 9
 
@@ -321,7 +316,7 @@ function _init()
         y = 120,
         move_speed = 1.5,
         colors = {0, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15},
-        color = 0,
+        color = 1,
         color_updated = false,
         moving_left = false,
         moving_right = false,
@@ -338,7 +333,7 @@ function _init()
         y = 63,
         x_speed = 0,
         y_speed = 2,
-        y_speed_increase = 0.1,
+        y_speed_increase = 0.2,
         y_speed_cap = 4,
         x_angle_multiplier = 0.4
     }
