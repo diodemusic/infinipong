@@ -39,17 +39,17 @@
 
 - [x] cap ball speed
 
-- [ ] Flip sprites instead of using two sprites for left/right facing
+- [x] Flip sprites instead of using two sprites for left/right facing
 
-- [ ] Use variables for sprite ints n
+- [x] Use variables for sprite ints n
 
-- [ ] Fix double bounce bug
+- [x] Fix double bounce bug
 
-- [ ] Switch to pal() for player color and enemy color
+- [x] Switch to pal() for player color and enemy color
 
-- [ ] ball bounces off the side of the player
+- [x] Add title screen and title music with animated background
 
-- [ ] add title screen and title music with animated background
+- [ ] Add start game sound
 
 - [ ] fix audio pops and clicks
 
@@ -62,6 +62,8 @@
 
 - [ ] add flair to level up
 
-- [ ] high score table, prompt for 3 letter name on new hight score
+- [ ] high score table, prompt for 3 letter name on new high score
 
 - [ ] heart falls from top and u can keep it up to keep the life
+
+- [ ] ball bounces off the side of the player

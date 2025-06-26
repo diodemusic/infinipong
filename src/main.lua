@@ -96,8 +96,8 @@ function update_ball()
     ball.y += ball.y_speed
     ball.x += ball.x_speed
 
-    if ball.x < 1 then
-        ball.x = 1
+    if ball.x < 0 then
+        ball.x = 0
         ball.x_speed = -ball.x_speed
         sfx(2)
     end
@@ -117,7 +117,7 @@ function update_ball()
         ball.y_speed = -ball.y_speed
         calculate_ball_x_angle()
         level_progress += 16
-        score += 1 * score_multiplier
+        score += 10 * score_multiplier
         sfx(2)
     end
 
@@ -207,7 +207,7 @@ function draw_game_over()
     if game_over then
         rectfill(20, 50, 108, 78, 0)
         print("game over!", 44, 58, 7)
-        print("press x", 49, 68, 7)
+        print("press ❎", 49, 68, 7)
     end
 end
 ------------------------------- debug
@@ -302,10 +302,62 @@ function draw_hitboxes()
     )
 end
 
+------------------------------- main menu
+
+function draw_main_menu()
+    cls(0)
+    map(16, 0)
+
+    pal(1, player.colors[player.color])
+    spr(
+        player.sprite_num,
+        sin(time() * (2 * 3.14159) * 0.015) * 60 + 60,
+        120
+    )
+    pal(1, 1)
+    spr(
+        enemy.sprite_num,
+        -sin(time() * (2 * 3.14159) * 0.015) * 60 + 60,
+        10
+    )
+
+    print("press [🅾️] to start", 28, 82, 7)
+end
+
+function update_main_menu()
+    if not main_menu.music_is_playing then
+        music(main_menu.music_num, 10, 1)
+        main_menu.music_is_playing = true
+    end
+
+    main_menu.frame_counter += 1
+
+    if main_menu.frame_counter >= 30 then
+        if player.color > 12 then
+            player.color = 1
+        else
+            player.color += 1
+        end
+
+        main_menu.frame_counter = 0
+    end
+
+    if btn(4) then
+        main_menu.start_game = true
+        music(-1, 10, 1)
+        player.color = 1
+    end
+end
+
 ------------------------------- pico-8 callbacks
 
 function _init()
-    music(0, 10, 1)
+    main_menu = {
+        start_game = false,
+        music_num = 0,
+        music_is_playing = false,
+        frame_counter = 0
+    }
 
     player = {
         sprite_num = 0,
@@ -325,7 +377,7 @@ function _init()
         sprite_num = 2,
         sprite_num_right = 3,
         x = 60,
-        y = 8,
+        y = -100,
         moving_left = false,
         moving_right = false
     }
@@ -341,13 +393,13 @@ function _init()
     level = 1
     level_progress = 0
     score = 0
-    score_multiplier = 1
+    score_multiplier = 10
     game_over = false
 
     debug_options = {
-        show_debug_stats = true,
+        show_debug_stats = false,
         pixel_inspect = false,
-        aim_bot = true,
+        aim_bot = false,
         aim_bot_toggle = false, -- use aim_bot instead
         infinite_lives = false,
         lock_controls = false,
@@ -360,10 +412,17 @@ function _init()
 end
 
 function _update()
+    if not main_menu.start_game then
+        update_main_menu()
+        return
+    end
+
     update_game_over()
+
     if game_over then
         return
     end
+
     update_player()
     update_enemy()
     update_ball()
@@ -373,6 +432,11 @@ function _update()
 end
 
 function _draw()
+    if not main_menu.start_game then
+        draw_main_menu()
+        return
+    end
+
     cls(1)
     map(0, 0)
     draw_ball()
