@@ -199,6 +199,7 @@ function update_game_over()
     if game_over then
         if btnp(5) then
             _init()
+            main_menu.start_game = true
         end
     end
 end
